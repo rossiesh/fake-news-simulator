@@ -1,0 +1,15 @@
+{
+  "name": "example_experiment",
+  "model": {
+    "number_of_nodes": 500,
+    "influencer_ratio": 0.05,
+    "share_probability": 0.2,
+    "check_probability": 0.4,
+    "moderation_type": "none",
+    "moderation_threshold": 30
+  },
+  "execution": {
+    "runs_per_scenario": 100,
+    "max_steps_per_run": 40
+  }
+}
