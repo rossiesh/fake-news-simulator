@@ -15,13 +15,24 @@ MAX_VARYING_PARAMETERS = 2
 ExperimentName = Annotated[str, Field(min_length=1, max_length=30, pattern=r"^[a-zA-Z0-9_]+$")]
 NodeCount = Annotated[int, Field(ge=1, le=10000)]
 Probability = Annotated[float, Field(ge=0.0, le=1.0)]
+Factor = Annotated[float, Field(gt=0.0, le=1.0)]
 PositiveInt = Annotated[int, Field(ge=1)]
 
 
 class ModerationType(StrEnum):
     NONE = "none"
     LABEL = "label"
+    DOWNRANK = "downrank"
     DELETE = "delete"
+
+
+class ModerationConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    type: ModerationType | list[ModerationType]
+    threshold: PositiveInt | list[PositiveInt]
+    label_factor: Factor | list[Factor]
+    downrank_factor: Factor | list[Factor]
 
 
 class ModelConfig(BaseModel):
@@ -31,8 +42,7 @@ class ModelConfig(BaseModel):
     influencer_ratio: Probability | list[Probability]
     share_probability: Probability | list[Probability]
     check_probability: Probability | list[Probability]
-    moderation_type: ModerationType | list[ModerationType]
-    moderation_threshold: PositiveInt | list[PositiveInt]
+    moderation: ModerationConfig
 
     @model_validator(mode="after")
     def validate_moderation_threshold(self):
@@ -41,10 +51,10 @@ class ModelConfig(BaseModel):
         else:
             number_of_nodes_values = [self.number_of_nodes]
 
-        if isinstance(self.moderation_threshold, list):
-            moderation_threshold_values = self.moderation_threshold
+        if isinstance(self.moderation.threshold, list):
+            moderation_threshold_values = self.moderation.threshold
         else:
-            moderation_threshold_values = [self.moderation_threshold]
+            moderation_threshold_values = [self.moderation.threshold]
 
         min_number_of_nodes = min(number_of_nodes_values)
         max_moderation_threshold = max(moderation_threshold_values)
@@ -57,7 +67,7 @@ class ModelConfig(BaseModel):
     @model_validator(mode="after")
     def validate_variation_rules(self):
         varying_parameters = 0
-        for key, value in self.model_dump().items():
+        for key, value in flatten_dict(self.model_dump()).items():
             if isinstance(value, list):
                 varying_parameters += 1
                 if varying_parameters > MAX_VARYING_PARAMETERS:
@@ -90,3 +100,15 @@ class ExperimentConfig(BaseModel):
     @classmethod
     def normalize_name(cls, value: str) -> str:
         return value.lower()
+
+
+def flatten_dict(nested_dict: dict, parent_key: str = "") -> dict:
+    flattened_dict = {}
+    for key, value in nested_dict.items():
+        new_key = f"{parent_key}.{key}" if parent_key else key
+        if isinstance(value, dict):
+            flattened_dict.update(flatten_dict(value, new_key))
+        else:
+            flattened_dict[new_key] = value
+
+    return flattened_dict
