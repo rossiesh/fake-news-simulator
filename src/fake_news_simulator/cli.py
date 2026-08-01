@@ -1,5 +1,6 @@
 from fake_news_simulator.experiment_loader import load_experiment
 from fake_news_simulator.experiment_schema import ExperimentConfig
+from fake_news_simulator.scenario_generator import ScenarioGenerator
 
 from json import JSONDecodeError
 from pydantic import ValidationError
@@ -30,8 +31,13 @@ def load_experiment_or_exit(experiment_name: str) -> ExperimentConfig:
 
 @app.command(name="start")
 def start_experiment(experiment_name: str):
-    load_experiment_or_exit(experiment_name)
+    experiment = load_experiment_or_exit(experiment_name)
     typer.echo(f"Experiment '{experiment_name}' loaded successfully")
+
+    scenarios = ScenarioGenerator(experiment).generate()
+    for scenario in scenarios:
+        typer.echo(scenario)
+        typer.echo("\n")
 
 
 @app.command(name="validate")
