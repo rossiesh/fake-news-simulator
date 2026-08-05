@@ -29,8 +29,6 @@ class ScenarioGenerator:
 
     def generate(self) -> list[Scenario]:
         parameter_values = {
-            "number_of_nodes": self._convert_to_list(self.experiment.model.number_of_nodes),
-            "influencer_ratio": self._convert_to_list(self.experiment.model.influencer_ratio),
             "share_probability": self._convert_to_list(self.experiment.model.share_probability),
             "check_probability": self._convert_to_list(self.experiment.model.check_probability),
             "moderation_type": self._convert_to_list(self.experiment.model.moderation.type),
@@ -56,8 +54,8 @@ class ScenarioGenerator:
     def _create_scenario(self, index: int, values: dict) -> Scenario:
         return Scenario(
             scenario_id=f"{index:02}",
-            number_of_nodes=values["number_of_nodes"],
-            influencer_ratio=values["influencer_ratio"],
+            number_of_nodes=self.experiment.model.number_of_nodes,
+            influencer_ratio=self.experiment.model.influencer_ratio,
             share_probability=values["share_probability"],
             check_probability=values["check_probability"],
             moderation_type=values["moderation_type"],

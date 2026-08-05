@@ -13,7 +13,8 @@ MAX_VALUES_PER_LIST = 4
 MAX_VARYING_PARAMETERS = 2
 
 ExperimentName = Annotated[str, Field(min_length=1, max_length=30, pattern=r"^[a-zA-Z0-9_]+$")]
-NodeCount = Annotated[int, Field(ge=1, le=10000)]
+NodeCount = Annotated[int, Field(ge=100, le=10000)]
+RunsPerScenario = Annotated[int, Field(ge=100, le=1000)]
 Probability = Annotated[float, Field(ge=0.0, le=1.0)]
 Factor = Annotated[float, Field(gt=0.0, le=1.0)]
 PositiveInt = Annotated[int, Field(ge=1)]
@@ -38,29 +39,23 @@ class ModerationConfig(BaseModel):
 class ModelConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    number_of_nodes: NodeCount | list[NodeCount]
-    influencer_ratio: Probability | list[Probability]
+    number_of_nodes: NodeCount
+    influencer_ratio: Probability
     share_probability: Probability | list[Probability]
     check_probability: Probability | list[Probability]
     moderation: ModerationConfig
 
     @model_validator(mode="after")
     def validate_moderation_threshold(self):
-        if isinstance(self.number_of_nodes, list):
-            number_of_nodes_values = self.number_of_nodes
-        else:
-            number_of_nodes_values = [self.number_of_nodes]
-
         if isinstance(self.moderation.threshold, list):
             moderation_threshold_values = self.moderation.threshold
         else:
             moderation_threshold_values = [self.moderation.threshold]
 
-        min_number_of_nodes = min(number_of_nodes_values)
         max_moderation_threshold = max(moderation_threshold_values)
 
-        if max_moderation_threshold >= min_number_of_nodes:
-            raise ValueError("Moderation threshold must be less than the smallest number_of_nodes value")
+        if max_moderation_threshold >= self.number_of_nodes:
+            raise ValueError("Moderation threshold must be less than number_of_nodes")
 
         return self
 
@@ -85,7 +80,7 @@ class ModelConfig(BaseModel):
 class ExecutionConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    runs_per_scenario: PositiveInt
+    runs_per_scenario: RunsPerScenario
     max_steps_per_run: PositiveInt
 
 
