@@ -1,7 +1,7 @@
 {
   "name": "example_experiment",
   "model": {
-    "number_of_nodes": 100,
+    "number_of_nodes": 5000,
     "influencer_ratio": 0.05,
     "share_probability": 0.2,
     "check_probability": 0.4,
@@ -13,7 +13,7 @@
     }
   },
   "execution": {
-    "runs_per_scenario": 100,
+    "runs_per_scenario": 50,
     "max_steps_per_run": 30
   }
 }

@@ -13,8 +13,9 @@ MAX_VALUES_PER_LIST = 4
 MAX_VARYING_PARAMETERS = 2
 
 ExperimentName = Annotated[str, Field(min_length=1, max_length=30, pattern=r"^[a-zA-Z0-9_]+$")]
-NodeCount = Annotated[int, Field(ge=100, le=10000)]
-RunsPerScenario = Annotated[int, Field(ge=100, le=1000)]
+NodeCount = Annotated[int, Field(ge=500, le=5000)]
+RunsPerScenario = Annotated[int, Field(ge=30, le=50)]
+MaxStepsPerRun = Annotated[int, Field(ge=30, le=100)]
 Probability = Annotated[float, Field(ge=0.0, le=1.0)]
 Factor = Annotated[float, Field(gt=0.0, le=1.0)]
 PositiveInt = Annotated[int, Field(ge=1)]
@@ -81,7 +82,7 @@ class ExecutionConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     runs_per_scenario: RunsPerScenario
-    max_steps_per_run: PositiveInt
+    max_steps_per_run: MaxStepsPerRun
 
 
 class ExperimentConfig(BaseModel):
@@ -95,6 +96,13 @@ class ExperimentConfig(BaseModel):
     @classmethod
     def normalize_name(cls, value: str) -> str:
         return value.lower()
+
+    @model_validator(mode="after")
+    def validate_max_steps_per_run(self):
+        if self.execution.max_steps_per_run > self.model.number_of_nodes:
+            raise ValueError("max_steps_per_run must be less than or equal to number_of_nodes")
+
+        return self
 
 
 def flatten_dict(nested_dict: dict, parent_key: str = "") -> dict:
