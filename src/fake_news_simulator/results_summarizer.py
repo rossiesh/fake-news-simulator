@@ -14,6 +14,9 @@ class ScenarioSummary:
     mean_total_shares: float
     std_total_shares: float
 
+    mean_steps: float
+    std_steps: float
+
 
 @dataclass(frozen=True)
 class SpreadOverStepsSummary:
@@ -39,17 +42,21 @@ class ResultsSummarizer:
         for scenario_id in scenario_ids:
             reached_accounts_values = []
             total_shares_values = []
+            steps_values = []
 
             for result in simulation_results:
                 if result.scenario_id == scenario_id:
                     reached_accounts_values.append(result.reached_accounts)
                     total_shares_values.append(result.total_shares)
+                    steps_values.append(result.steps)
 
             scenario_summaries.append(ScenarioSummary(scenario_id=scenario_id,
                                                       mean_reached_accounts=mean(reached_accounts_values),
                                                       std_reached_accounts=stdev(reached_accounts_values),
                                                       mean_total_shares=mean(total_shares_values),
-                                                      std_total_shares=stdev(total_shares_values)))
+                                                      std_total_shares=stdev(total_shares_values),
+                                                      mean_steps=mean(steps_values),
+                                                      std_steps=stdev(steps_values)))
 
         return scenario_summaries
 

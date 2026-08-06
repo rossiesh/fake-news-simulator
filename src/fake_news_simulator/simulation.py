@@ -13,7 +13,9 @@ class SimulationResult:
     run_index: int
     reached_accounts: int
     total_shares: int
+    steps: int
     spread_over_steps: list[tuple[int, int]]
+    start_node_is_influencer: bool
 
 
 class Simulation:
@@ -61,7 +63,9 @@ class Simulation:
             run_index=run_index,
             reached_accounts=reached_accounts,
             total_shares=total_shares,
-            spread_over_steps=spread_over_steps
+            steps=spread_over_steps[-1][0],
+            spread_over_steps=spread_over_steps,
+            start_node_is_influencer=graph.nodes[start_node]["is_influencer"]
         )
 
     def _get_reachable_followers(self, graph: networkx.DiGraph, node_id: int, scenario: Scenario,
