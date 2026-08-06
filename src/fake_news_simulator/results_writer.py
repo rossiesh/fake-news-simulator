@@ -29,7 +29,7 @@ class ResultsWriter:
 
     @staticmethod
     def _write_scenario_table(result_directory: Path, scenarios: list[Scenario]) -> None:
-        path = result_directory / "scenario_table.csv"
+        path = result_directory / "01_scenario_table.csv"
 
         with path.open("w", encoding="utf-8", newline="") as file:
             writer = csv.DictWriter(file, fieldnames=["scenario_id", "number_of_nodes", "influencer_ratio",
@@ -55,7 +55,7 @@ class ResultsWriter:
 
     @staticmethod
     def _write_all_simulation_results(result_directory: Path, simulation_results: list[SimulationResult]) -> None:
-        path = result_directory / "simulation_results.csv"
+        path = result_directory / "02_simulation_results.csv"
 
         with path.open("w", encoding="utf-8", newline="") as file:
             writer = csv.DictWriter(file,
@@ -70,7 +70,7 @@ class ResultsWriter:
 
     @staticmethod
     def _write_scenario_summaries(result_directory: Path, scenario_summaries: list[ScenarioSummary]) -> None:
-        path = result_directory / "scenario_summaries.csv"
+        path = result_directory / "03_scenario_summaries.csv"
 
         with path.open("w", encoding="utf-8", newline="") as file:
             writer = csv.DictWriter(file, fieldnames=["scenario_id", "mean_reached_accounts", "std_reached_accounts",
@@ -80,14 +80,14 @@ class ResultsWriter:
 
             for summary in scenario_summaries:
                 writer.writerow(
-                    {"scenario_id": summary.scenario_id, "mean_reached_accounts": summary.mean_reached_accounts,
-                     "std_reached_accounts": summary.std_reached_accounts,
-                     "mean_total_shares": summary.mean_total_shares, "std_total_shares": summary.std_total_shares,
-                     "mean_steps": summary.mean_steps, "std_steps": summary.std_steps})
+                    {"scenario_id": summary.scenario_id, "mean_reached_accounts": round(summary.mean_reached_accounts,4),
+                     "std_reached_accounts": round(summary.std_reached_accounts,4),
+                     "mean_total_shares": round(summary.mean_total_shares,4), "std_total_shares": round(summary.std_total_shares,4),
+                     "mean_steps": round(summary.mean_steps,4), "std_steps": round(summary.std_steps,4)})
 
     @staticmethod
     def _write_spread_summaries(result_directory: Path, spread_summaries: list[SpreadOverStepsSummary]) -> None:
-        path = result_directory / "spread_summaries.csv"
+        path = result_directory / "04_spread_summaries.csv"
 
         with path.open("w", encoding="utf-8", newline="") as file:
             writer = csv.DictWriter(file,
@@ -96,5 +96,5 @@ class ResultsWriter:
 
             for summary in spread_summaries:
                 writer.writerow({"scenario_id": summary.scenario_id, "step": summary.step,
-                                 "mean_reached_accounts": summary.mean_reached_accounts,
-                                 "std_reached_accounts": summary.std_reached_accounts})
+                                 "mean_reached_accounts": round(summary.mean_reached_accounts,4),
+                                 "std_reached_accounts": round(summary.std_reached_accounts,4)})
