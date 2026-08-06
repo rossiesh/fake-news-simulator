@@ -72,7 +72,7 @@ class Simulation:
             return all_followers
 
         selected_followers = numpy.random.permutation(all_followers)[
-            :int(len(all_followers) * (1 - scenario.moderation_downrank_factor))]
+            :int(len(all_followers) * (1 - scenario.moderation_downrank_reduction_factor))]
 
         result = []
         for follower_id in selected_followers:
@@ -84,7 +84,7 @@ class Simulation:
         share_probability = scenario.share_probability
 
         if self._is_label_active(scenario, reached_accounts):
-            share_probability *= (1 - scenario.moderation_label_factor)
+            share_probability *= (1 - scenario.moderation_label_reduction_factor)
 
         return numpy.random.random() < share_probability
 

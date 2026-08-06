@@ -16,8 +16,8 @@ class Scenario:
 
     moderation_type: ModerationType
     moderation_threshold: int
-    moderation_label_factor: float
-    moderation_downrank_factor: float
+    moderation_label_reduction_factor: float
+    moderation_downrank_reduction_factor: float
 
     runs_per_scenario: int
     max_steps_per_run: int
@@ -33,8 +33,8 @@ class ScenarioGenerator:
             "check_probability": self._convert_to_list(self.experiment.model.check_probability),
             "moderation_type": self._convert_to_list(self.experiment.model.moderation.type),
             "moderation_threshold": self._convert_to_list(self.experiment.model.moderation.threshold),
-            "moderation_label_factor": self._convert_to_list(self.experiment.model.moderation.label_factor),
-            "moderation_downrank_factor": self._convert_to_list(self.experiment.model.moderation.downrank_factor),
+            "moderation_label_reduction_factor": self._convert_to_list(self.experiment.model.moderation.label_reduction_factor),
+            "moderation_downrank_reduction_factor": self._convert_to_list(self.experiment.model.moderation.downrank_reduction_factor),
         }
 
         scenarios = []
@@ -60,8 +60,8 @@ class ScenarioGenerator:
             check_probability=values["check_probability"],
             moderation_type=values["moderation_type"],
             moderation_threshold=values["moderation_threshold"],
-            moderation_label_factor=values["moderation_label_factor"],
-            moderation_downrank_factor=values["moderation_downrank_factor"],
+            moderation_label_reduction_factor=values["moderation_label_reduction_factor"],
+            moderation_downrank_reduction_factor=values["moderation_downrank_reduction_factor"],
             runs_per_scenario=self.experiment.execution.runs_per_scenario,
             max_steps_per_run=self.experiment.execution.max_steps_per_run,
         )

@@ -33,8 +33,8 @@ class ModerationConfig(BaseModel):
 
     type: ModerationType | list[ModerationType]
     threshold: PositiveInt | list[PositiveInt]
-    label_factor: Factor | list[Factor]
-    downrank_factor: Factor | list[Factor]
+    label_reduction_factor: Factor | list[Factor]
+    downrank_reduction_factor: Factor | list[Factor]
 
 
 class ModelConfig(BaseModel):

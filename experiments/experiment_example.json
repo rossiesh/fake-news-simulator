@@ -6,10 +6,10 @@
     "share_probability": 0.2,
     "check_probability": 0.4,
     "moderation": {
-      "type": "none",
+      "type": "label",
       "threshold": 30,
-      "label_factor": 0.4,
-      "downrank_factor": 0.2
+      "label_reduction_factor": 0.4,
+      "downrank_reduction_factor": 0.8
     }
   },
   "execution": {
