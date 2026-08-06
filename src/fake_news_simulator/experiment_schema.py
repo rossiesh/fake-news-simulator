@@ -9,7 +9,7 @@ from enum import StrEnum
 from typing import Annotated
 
 MIN_VALUES_PER_LIST = 2
-MAX_VALUES_PER_LIST = 4
+MAX_VALUES_PER_LIST = 3
 MAX_VARYING_PARAMETERS = 2
 
 ExperimentName = Annotated[str, Field(min_length=1, max_length=30, pattern=r"^[a-zA-Z0-9_]+$")]
