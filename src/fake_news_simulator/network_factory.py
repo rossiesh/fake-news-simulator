@@ -3,14 +3,15 @@ import networkx
 
 
 class NetworkFactory:
-    def create_graph(self, number_of_nodes: int, influencer_ratio: float) -> networkx.Graph:
-        graph = networkx.Graph()
+    def create_graph(self, number_of_nodes: int, influencer_ratio: float) -> networkx.DiGraph:
+        graph = networkx.DiGraph()
         self._add_nodes(graph, number_of_nodes, influencer_ratio)
-        self._add_edges(graph, number_of_nodes)
+        self._add_follow_edges(graph, number_of_nodes)
 
         return graph
 
-    def _add_nodes(self, graph: networkx.Graph, number_of_nodes: int, influencer_ratio: float) -> None:
+    @staticmethod
+    def _add_nodes(graph: networkx.DiGraph, number_of_nodes: int, influencer_ratio: float) -> None:
         influencer_amount = int(number_of_nodes * influencer_ratio)
         influencer_node_ids = set(numpy.random.permutation(number_of_nodes)[:influencer_amount])
 
@@ -21,24 +22,39 @@ class NetworkFactory:
                 has_seen=False,
                 has_shared=False)
 
-    def _add_edges(self, graph: networkx.Graph, number_of_nodes: int) -> None:
+    @staticmethod
+    def _add_follow_edges(graph: networkx.DiGraph, number_of_nodes: int) -> None:
         node_ids = list(graph.nodes)
         edges = []
 
         for node_id in node_ids:
             if graph.nodes[node_id]["is_influencer"]:
-                connection_amount = numpy.random.randint(int(number_of_nodes * 0.09),
-                                                         int(number_of_nodes * 0.20) + 1)
+                following_amount = numpy.random.randint(int(number_of_nodes * 0.0005),
+                                                        int(number_of_nodes * 0.015) + 1)
             else:
-                connection_amount = numpy.random.randint(int(number_of_nodes * 0.02),
-                                                         int(number_of_nodes * 0.04) + 1)
+                following_amount = numpy.random.randint(int(number_of_nodes * 0.002),
+                                                        int(number_of_nodes * 0.025) + 1)
 
-            possible_target_ids = node_ids.copy()
-            possible_target_ids.remove(node_id)
+            possible_followed_ids = node_ids.copy()
+            possible_followed_ids.remove(node_id)
 
-            selected_targets = numpy.random.permutation(possible_target_ids)[:connection_amount]
+            weights = []
 
-            for target_id in selected_targets:
-                edges.append((node_id, target_id))
+            for followed_id in possible_followed_ids:
+                if graph.nodes[followed_id]["is_influencer"]:
+                    weights.append(10.0)
+                else:
+                    weights.append(1.0)
+
+            probabilities = numpy.array(weights) / sum(weights)
+
+            selected_followed_ids = numpy.asarray(numpy.random.choice(possible_followed_ids,
+                                                                      size=min(following_amount,
+                                                                               len(possible_followed_ids)),
+                                                                      replace=False,
+                                                                      p=probabilities))
+
+            for selected_followed_id in selected_followed_ids:
+                edges.append((node_id, int(selected_followed_id)))
 
         graph.add_edges_from(edges)
