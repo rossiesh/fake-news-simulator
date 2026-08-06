@@ -67,12 +67,12 @@ class Simulation:
     def _get_reachable_followers(self, graph: networkx.DiGraph, node_id: int, scenario: Scenario,
                                  reached_accounts: int) -> list[int]:
         all_followers = list(graph.predecessors(node_id))
+        recipient_ratio = scenario.recipient_ratio
 
-        if not self._is_downrank_active(scenario, reached_accounts):
-            return all_followers
+        if self._is_downrank_active(scenario, reached_accounts):
+            recipient_ratio *= (1 - scenario.moderation_downrank_reduction_factor)
 
-        selected_followers = numpy.random.permutation(all_followers)[
-            :int(len(all_followers) * (1 - scenario.moderation_downrank_reduction_factor))]
+        selected_followers = numpy.random.permutation(all_followers)[:int(len(all_followers) * recipient_ratio)]
 
         result = []
         for follower_id in selected_followers:

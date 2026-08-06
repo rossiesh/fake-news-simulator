@@ -3,11 +3,12 @@
   "model": {
     "number_of_nodes": 5000,
     "influencer_ratio": 0.05,
-    "share_probability": 0.2,
-    "check_probability": 0.4,
+    "share_probability": 0.08,
+    "recipient_ratio": 0.25,
+    "check_probability": 0.3,
     "moderation": {
-      "type": "label",
-      "threshold": 30,
+      "type": "downrank",
+      "threshold": 1,
       "label_reduction_factor": 0.4,
       "downrank_reduction_factor": 0.8
     }
