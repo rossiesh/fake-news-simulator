@@ -1,0 +1,28 @@
+{
+  "name": "share_and_check",
+  "model": {
+    "number_of_nodes": 7000,
+    "influencer_ratio": 0.05,
+    "share_probability": [
+      0.1,
+      0.25,
+      0.4
+    ],
+    "recipient_ratio": 0.3,
+    "check_probability": [
+      0.1,
+      0.4,
+      0.7
+    ],
+    "moderation": {
+      "type": "none",
+      "threshold_activation_ratio": 0.1,
+      "label_reduction_factor": 0.1,
+      "downrank_reduction_factor": 0.1
+    }
+  },
+  "execution": {
+    "runs_per_scenario": 50,
+    "max_steps_per_run": 30
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "moderation_type_and_threshold",
+  "model": {
+    "number_of_nodes": 7000,
+    "influencer_ratio": 0.05,
+    "share_probability": 0.3,
+    "recipient_ratio": 0.3,
+    "check_probability": 0.3,
+    "moderation": {
+      "type": [
+        "none",
+        "label",
+        "downrank"
+      ],
+      "threshold_activation_ratio": [
+        0.01,
+        0.03,
+        0.08
+      ],
+      "label_reduction_factor": 0.4,
+      "downrank_reduction_factor": 0.7
+    }
+  },
+  "execution": {
+    "runs_per_scenario": 50,
+    "max_steps_per_run": 30
+  }
+}

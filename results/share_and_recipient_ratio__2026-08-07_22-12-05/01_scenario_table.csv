@@ -1,0 +1,10 @@
+scenario_id,number_of_nodes,influencer_ratio,share_probability,recipient_ratio,check_probability,moderation_type,moderation_threshold_activation_ratio,moderation_label_reduction_factor,moderation_downrank_reduction_factor,runs_per_scenario,max_steps_per_run
+01,7000,0.05,0.1,0.15,0.3,none,0.1,0.1,0.1,50,30
+02,7000,0.05,0.1,0.3,0.3,none,0.1,0.1,0.1,50,30
+03,7000,0.05,0.1,0.5,0.3,none,0.1,0.1,0.1,50,30
+04,7000,0.05,0.25,0.15,0.3,none,0.1,0.1,0.1,50,30
+05,7000,0.05,0.25,0.3,0.3,none,0.1,0.1,0.1,50,30
+06,7000,0.05,0.25,0.5,0.3,none,0.1,0.1,0.1,50,30
+07,7000,0.05,0.4,0.15,0.3,none,0.1,0.1,0.1,50,30
+08,7000,0.05,0.4,0.3,0.3,none,0.1,0.1,0.1,50,30
+09,7000,0.05,0.4,0.5,0.3,none,0.1,0.1,0.1,50,30
