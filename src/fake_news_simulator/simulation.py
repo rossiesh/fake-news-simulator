@@ -98,7 +98,7 @@ class Simulation:
 
     @staticmethod
     def _is_moderation_active(scenario: Scenario, reached_accounts: int) -> bool:
-        return reached_accounts >= scenario.moderation_threshold
+        return reached_accounts >= scenario.number_of_nodes * scenario.moderation_threshold_activation_ratio
 
     def _is_label_active(self, scenario: Scenario, reached_accounts: int) -> bool:
         return scenario.moderation_type == ModerationType.LABEL and self._is_moderation_active(scenario,

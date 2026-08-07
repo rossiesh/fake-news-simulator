@@ -75,7 +75,7 @@ def init_experiment(experiment_name: str):
             "check_probability": 0.0,
             "moderation": {
                 "type": "none",
-                "threshold": 0,
+                "threshold_activation_ratio": 0.0,
                 "label_reduction_factor": 0.0,
                 "downrank_reduction_factor": 0.0
             }

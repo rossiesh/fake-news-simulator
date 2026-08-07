@@ -18,7 +18,6 @@ RunsPerScenario = Annotated[int, Field(ge=30, le=50)]
 MaxStepsPerRun = Annotated[int, Field(ge=30, le=100)]
 Probability = Annotated[float, Field(ge=0.0, le=1.0)]
 Factor = Annotated[float, Field(gt=0.0, le=1.0)]
-PositiveInt = Annotated[int, Field(ge=1)]
 
 
 class ModerationType(StrEnum):
@@ -32,7 +31,7 @@ class ModerationConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     type: ModerationType | list[ModerationType]
-    threshold: PositiveInt | list[PositiveInt]
+    threshold_activation_ratio: Factor | list[Factor]
     label_reduction_factor: Factor | list[Factor]
     downrank_reduction_factor: Factor | list[Factor]
 
@@ -46,20 +45,6 @@ class ModelConfig(BaseModel):
     recipient_ratio: Factor
     check_probability: Probability | list[Probability]
     moderation: ModerationConfig
-
-    @model_validator(mode="after")
-    def validate_moderation_threshold(self):
-        if isinstance(self.moderation.threshold, list):
-            moderation_threshold_values = self.moderation.threshold
-        else:
-            moderation_threshold_values = [self.moderation.threshold]
-
-        max_moderation_threshold = max(moderation_threshold_values)
-
-        if max_moderation_threshold >= self.number_of_nodes:
-            raise ValueError("Moderation threshold must be less than number_of_nodes")
-
-        return self
 
     @model_validator(mode="after")
     def validate_variation_rules(self):

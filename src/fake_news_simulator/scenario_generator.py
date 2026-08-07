@@ -16,7 +16,7 @@ class Scenario:
     check_probability: float
 
     moderation_type: ModerationType
-    moderation_threshold: int
+    moderation_threshold_activation_ratio: float
     moderation_label_reduction_factor: float
     moderation_downrank_reduction_factor: float
 
@@ -33,7 +33,8 @@ class ScenarioGenerator:
             "share_probability": self._convert_to_list(self.experiment.model.share_probability),
             "check_probability": self._convert_to_list(self.experiment.model.check_probability),
             "moderation_type": self._convert_to_list(self.experiment.model.moderation.type),
-            "moderation_threshold": self._convert_to_list(self.experiment.model.moderation.threshold),
+            "moderation_threshold_activation_ratio": self._convert_to_list(
+                self.experiment.model.moderation.threshold_activation_ratio),
             "moderation_label_reduction_factor": self._convert_to_list(
                 self.experiment.model.moderation.label_reduction_factor),
             "moderation_downrank_reduction_factor": self._convert_to_list(
@@ -63,7 +64,7 @@ class ScenarioGenerator:
             recipient_ratio=self.experiment.model.recipient_ratio,
             check_probability=values["check_probability"],
             moderation_type=values["moderation_type"],
-            moderation_threshold=values["moderation_threshold"],
+            moderation_threshold_activation_ratio=values["moderation_threshold_activation_ratio"],
             moderation_label_reduction_factor=values["moderation_label_reduction_factor"],
             moderation_downrank_reduction_factor=values["moderation_downrank_reduction_factor"],
             runs_per_scenario=self.experiment.execution.runs_per_scenario,

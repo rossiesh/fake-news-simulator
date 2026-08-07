@@ -35,7 +35,7 @@ class ResultsWriter:
         with path.open("w", encoding="utf-8", newline="") as file:
             writer = csv.DictWriter(file, fieldnames=["scenario_id", "number_of_nodes", "influencer_ratio",
                                                       "share_probability", "recipient_ratio", "check_probability",
-                                                      "moderation_type", "moderation_threshold",
+                                                      "moderation_type", "moderation_threshold_activation_ratio",
                                                       "moderation_label_reduction_factor",
                                                       "moderation_downrank_reduction_factor", "runs_per_scenario",
                                                       "max_steps_per_run"])
@@ -48,7 +48,7 @@ class ResultsWriter:
                                  "recipient_ratio": scenario.recipient_ratio,
                                  "check_probability": scenario.check_probability,
                                  "moderation_type": scenario.moderation_type.value,
-                                 "moderation_threshold": scenario.moderation_threshold,
+                                 "moderation_threshold_activation_ratio": scenario.moderation_threshold_activation_ratio,
                                  "moderation_label_reduction_factor": scenario.moderation_label_reduction_factor,
                                  "moderation_downrank_reduction_factor": scenario.moderation_downrank_reduction_factor,
                                  "runs_per_scenario": scenario.runs_per_scenario,

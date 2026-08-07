@@ -1,14 +1,14 @@
 {
   "name": "example_experiment",
   "model": {
-    "number_of_nodes": 5000,
+    "number_of_nodes": 500,
     "influencer_ratio": 0.05,
-    "share_probability": 0.08,
+    "share_probability": [0.08,0.3,0.4],
     "recipient_ratio": 0.25,
-    "check_probability": 0.3,
+    "check_probability": [0.3,0.6,0.9],
     "moderation": {
       "type": "downrank",
-      "threshold": 1,
+      "threshold_activation_ratio": 0.02,
       "label_reduction_factor": 0.4,
       "downrank_reduction_factor": 0.8
     }
