@@ -100,7 +100,7 @@ beeinflussen und den beschriebenen Ablauf einer Simulation erschweren würden.
 
 ## Storage of Results
 
-Results are stored in `results/`. Für jedes simulierte Experiment wird ein Unterordner erstellt, welcher wie folgt
+Ergebnisse sind unter `results/` gespeichert. Für jedes simulierte Experiment wird ein Unterordner erstellt, welcher wie folgt
 benannt ist: `<experiment_name>__<YYYY-MM-DD>_<HH-MM-SS>`.
 
 In jedem Ordner werden die Ergebnisse gespeichert:
