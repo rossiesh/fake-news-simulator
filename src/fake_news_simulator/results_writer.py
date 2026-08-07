@@ -5,6 +5,7 @@ from pathlib import Path
 from fake_news_simulator.results_summarizer import SpreadOverStepsSummary, ScenarioSummary
 from fake_news_simulator.scenario_generator import Scenario
 from fake_news_simulator.simulation import SimulationResult
+from fake_news_simulator.paths import RESULTS_DIR
 
 
 class ResultsWriter:
@@ -22,7 +23,7 @@ class ResultsWriter:
     @staticmethod
     def _create_result_directory(experiment_name: str) -> Path:
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        result_directory = Path("results") / f"{experiment_name}__{timestamp}"
+        result_directory = RESULTS_DIR / f"{experiment_name}__{timestamp}"
         result_directory.mkdir(parents=True)
 
         return result_directory

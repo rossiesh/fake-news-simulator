@@ -1,14 +1,13 @@
 import json
 import time
-from json import JSONDecodeError
-from pathlib import Path
 
 import typer
 from pydantic import ValidationError
 
-from fake_news_simulator.experiment_loader import load_experiment
+from fake_news_simulator.experiment_loader import ExperimentLoader
 from fake_news_simulator.experiment_runner import ExperimentRunner
 from fake_news_simulator.experiment_schema import ExperimentConfig
+from fake_news_simulator.paths import EXPERIMENT_DIR
 from fake_news_simulator.plot_generator import PlotGenerator
 from fake_news_simulator.results_summarizer import ResultsSummarizer
 from fake_news_simulator.results_writer import ResultsWriter
@@ -16,30 +15,12 @@ from fake_news_simulator.scenario_generator import ScenarioGenerator
 
 app = typer.Typer()
 
-EXPERIMENT_DIR = Path("experiments")
-
-
-def load_experiment_or_exit(experiment_name: str) -> ExperimentConfig:
-    try:
-        experiment = load_experiment(experiment_name)
-    except FileNotFoundError:
-        typer.echo(f"Experiment '{experiment_name}' not found")
-        raise typer.Exit(code=1)
-    except JSONDecodeError:
-        typer.echo(f"Experiment '{experiment_name}' contains invalid json")
-        raise typer.Exit(code=1)
-    except ValidationError as error:
-        typer.echo(f"Experiment '{experiment_name}' is invalid")
-        typer.echo(str(error))
-        raise typer.Exit(code=1)
-    return experiment
-
 
 @app.command(name="start")
 def start_experiment(experiment_name: str):
     start_time = time.perf_counter()
 
-    experiment = load_experiment_or_exit(experiment_name)
+    experiment = _load_experiment_or_exit(experiment_name)
     typer.echo(f"Experiment '{experiment_name}' loaded successfully")
 
     scenarios = ScenarioGenerator(experiment).generate()
@@ -62,7 +43,7 @@ def start_experiment(experiment_name: str):
 
 @app.command(name="validate")
 def validate_experiment(experiment_name: str):
-    load_experiment_or_exit(experiment_name)
+    _load_experiment_or_exit(experiment_name)
     typer.echo(f"Experiment '{experiment_name}' is valid")
 
 
@@ -109,3 +90,19 @@ def init_experiment(experiment_name: str):
         json.dump(template, file, indent=2)
 
     typer.echo(f"Experiment '{experiment_name}' created. Path: {path}")
+
+
+def _load_experiment_or_exit(experiment_name: str) -> ExperimentConfig:
+    try:
+        experiment = ExperimentLoader.load(experiment_name)
+    except FileNotFoundError:
+        typer.echo(f"Experiment '{experiment_name}' not found")
+        raise typer.Exit(code=1)
+    except json.JSONDecodeError:
+        typer.echo(f"Experiment '{experiment_name}' contains invalid json")
+        raise typer.Exit(code=1)
+    except ValidationError as error:
+        typer.echo(f"Experiment '{experiment_name}' is invalid")
+        typer.echo(str(error))
+        raise typer.Exit(code=1)
+    return experiment
