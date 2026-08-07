@@ -68,21 +68,21 @@ def init_experiment(experiment_name: str):
     template = {
         "name": experiment_name,
         "model": {
-            "number_of_nodes": 0,
-            "influencer_ratio": 0,
+            "number_of_nodes": 500,
+            "influencer_ratio": 0.0,
             "share_probability": 0.0,
-            "recipient_ratio": 0.0,
+            "recipient_ratio": 0.1,
             "check_probability": 0.0,
             "moderation": {
                 "type": "none",
-                "threshold_activation_ratio": 0.0,
-                "label_reduction_factor": 0.0,
-                "downrank_reduction_factor": 0.0
+                "threshold_activation_ratio": 0.1,
+                "label_reduction_factor": 0.1,
+                "downrank_reduction_factor": 0.1
             }
         },
         "execution": {
-            "runs_per_scenario": 0,
-            "max_steps_per_run": 0
+            "runs_per_scenario": 30,
+            "max_steps_per_run": 30
         }
     }
 
