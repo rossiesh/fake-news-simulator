@@ -31,6 +31,7 @@ class ScenarioGenerator:
     def generate(self) -> list[Scenario]:
         parameter_values = {
             "share_probability": self._convert_to_list(self.experiment.model.share_probability),
+            "recipient_ratio": self._convert_to_list(self.experiment.model.recipient_ratio),
             "check_probability": self._convert_to_list(self.experiment.model.check_probability),
             "moderation_type": self._convert_to_list(self.experiment.model.moderation.type),
             "moderation_threshold_activation_ratio": self._convert_to_list(
@@ -61,7 +62,7 @@ class ScenarioGenerator:
             number_of_nodes=self.experiment.model.number_of_nodes,
             influencer_ratio=self.experiment.model.influencer_ratio,
             share_probability=values["share_probability"],
-            recipient_ratio=self.experiment.model.recipient_ratio,
+            recipient_ratio=values["recipient_ratio"],
             check_probability=values["check_probability"],
             moderation_type=values["moderation_type"],
             moderation_threshold_activation_ratio=values["moderation_threshold_activation_ratio"],

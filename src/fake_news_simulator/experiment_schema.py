@@ -42,7 +42,7 @@ class ModelConfig(BaseModel):
     number_of_nodes: NodeCount
     influencer_ratio: Probability
     share_probability: Probability | list[Probability]
-    recipient_ratio: Factor
+    recipient_ratio: Factor | list[Factor]
     check_probability: Probability | list[Probability]
     moderation: ModerationConfig
 
