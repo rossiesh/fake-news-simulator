@@ -80,10 +80,12 @@ class ResultsWriter:
 
             for summary in scenario_summaries:
                 writer.writerow(
-                    {"scenario_id": summary.scenario_id, "mean_reached_accounts": round(summary.mean_reached_accounts,4),
-                     "std_reached_accounts": round(summary.std_reached_accounts,4),
-                     "mean_total_shares": round(summary.mean_total_shares,4), "std_total_shares": round(summary.std_total_shares,4),
-                     "mean_steps": round(summary.mean_steps,4), "std_steps": round(summary.std_steps,4)})
+                    {"scenario_id": summary.scenario_id,
+                     "mean_reached_accounts": round(summary.mean_reached_accounts, 4),
+                     "std_reached_accounts": round(summary.std_reached_accounts, 4),
+                     "mean_total_shares": round(summary.mean_total_shares, 4),
+                     "std_total_shares": round(summary.std_total_shares, 4),
+                     "mean_steps": round(summary.mean_steps, 4), "std_steps": round(summary.std_steps, 4)})
 
     @staticmethod
     def _write_spread_summaries(result_directory: Path, spread_summaries: list[SpreadOverStepsSummary]) -> None:
@@ -96,5 +98,5 @@ class ResultsWriter:
 
             for summary in spread_summaries:
                 writer.writerow({"scenario_id": summary.scenario_id, "step": summary.step,
-                                 "mean_reached_accounts": round(summary.mean_reached_accounts,4),
-                                 "std_reached_accounts": round(summary.std_reached_accounts,4)})
+                                 "mean_reached_accounts": round(summary.mean_reached_accounts, 4),
+                                 "std_reached_accounts": round(summary.std_reached_accounts, 4)})
