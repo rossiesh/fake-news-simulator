@@ -1,7 +1,9 @@
 import csv
+import json
 from datetime import datetime
 from pathlib import Path
 
+from fake_news_simulator.experiment_schema import ExperimentConfig
 from fake_news_simulator.results_summarizer import SpreadOverStepsSummary, ScenarioSummary
 from fake_news_simulator.scenario_generator import Scenario
 from fake_news_simulator.simulation import SimulationResult
@@ -9,10 +11,11 @@ from fake_news_simulator.paths import RESULTS_DIR
 
 
 class ResultsWriter:
-    def write(self, experiment_name: str, scenarios: list[Scenario], simulation_results: list[SimulationResult],
+    def write(self, experiment: ExperimentConfig, scenarios: list[Scenario], simulation_results: list[SimulationResult],
               scenario_summaries: list[ScenarioSummary], spread_summaries: list[SpreadOverStepsSummary]) -> Path:
 
-        result_directory = self._create_result_directory(experiment_name)
+        result_directory = self._create_result_directory(experiment.name)
+        self._copy_experiment_config(result_directory, experiment)
         self._write_scenario_table(result_directory, scenarios)
         self._write_all_simulation_results(result_directory, simulation_results)
         self._write_scenario_summaries(result_directory, scenario_summaries)
@@ -27,6 +30,13 @@ class ResultsWriter:
         result_directory.mkdir(parents=True)
 
         return result_directory
+
+    @staticmethod
+    def _copy_experiment_config(result_directory: Path, experiment: ExperimentConfig) -> None:
+        path = result_directory / "00_experiment_config.json"
+
+        with path.open("w", encoding="utf-8") as file:
+            json.dump(experiment.model_dump(mode="json"), file, indent=2)
 
     @staticmethod
     def _write_scenario_table(result_directory: Path, scenarios: list[Scenario]) -> None:

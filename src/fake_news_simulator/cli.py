@@ -29,7 +29,7 @@ def start_experiment(experiment_name: str):
     scenario_summaries = ResultsSummarizer.summarize_scenarios(simulation_results)
     spread_summaries = ResultsSummarizer.summarize_spread_over_steps(simulation_results)
 
-    result_directory = ResultsWriter().write(experiment_name=experiment.name, scenarios=scenarios,
+    result_directory = ResultsWriter().write(experiment=experiment, scenarios=scenarios,
                                              simulation_results=simulation_results,
                                              scenario_summaries=scenario_summaries, spread_summaries=spread_summaries)
 

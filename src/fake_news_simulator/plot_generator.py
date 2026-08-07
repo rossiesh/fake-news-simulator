@@ -68,14 +68,14 @@ class PlotGenerator:
                                           spread_summaries: list[SpreadOverStepsSummary]) -> None:
         path = result_directory / "07_spread_over_steps.png"
 
-        colors = ["#620f67", "#ddff01", "#1749BF", "#f0882b", "#2CE2BE", "#BF1717", "#D4E60E", "#CA0D98", "#3A3A3A"]
+        colors = ["#620f67", "#00A676", "#1749BF", "#f0882b", "#2CE2BE", "#BF1717", "#FFD166", "#CA0D98", "#3A3A3A"]
 
         scenario_ids = set()
         for summary in spread_summaries:
             scenario_ids.add(summary.scenario_id)
         scenario_ids = sorted(scenario_ids)
 
-        plotter.figure(figsize=(10, 6), dpi=200, facecolor="white")
+        plotter.figure(figsize=(14, 8), dpi=200, facecolor="white")
 
         for index, scenario_id in enumerate(scenario_ids):
             steps = []
