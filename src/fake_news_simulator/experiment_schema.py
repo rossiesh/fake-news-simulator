@@ -13,7 +13,7 @@ MAX_VALUES_PER_LIST = 3
 MAX_VARYING_PARAMETERS = 2
 
 ExperimentName = Annotated[str, Field(min_length=1, max_length=30, pattern=r"^[a-zA-Z0-9_]+$")]
-NodeCount = Annotated[int, Field(ge=500, le=5000)]
+NodeCount = Annotated[int, Field(ge=500, le=7000)]
 RunsPerScenario = Annotated[int, Field(ge=30, le=50)]
 MaxStepsPerRun = Annotated[int, Field(ge=30, le=100)]
 Probability = Annotated[float, Field(ge=0.0, le=1.0)]
