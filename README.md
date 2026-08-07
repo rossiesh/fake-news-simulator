@@ -25,7 +25,7 @@ modelliert.
 ## Installation
 
 Das Projekt benötigt Python 3.12 oder neuer. Die benötigten Dependencies sind in `pyproject.toml` definiert.
-Installiere die Abhängigkeiten mit: `uv sync` (Ausführung im Projektordner).
+Installation der Abhängigkeiten mit: `uv sync` (Ausführung im Projektordner).
 `uv` muss auf dem System installiert sein.
 
 ## CLI Usage
